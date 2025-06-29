@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import vrs_library.Teleop;
 
 
-@Teleop(group = "my linear op modes", name = "test test test")
+
 public class HardwareMap {
     private final Map<String, Object> devices = new HashMap<>();
 
