@@ -7,5 +7,7 @@ public class LinearOpMode {
     public LinearOpMode() {}
 
     public void runOpMode() {}
+
+    public native void waitForStart();
     
 }

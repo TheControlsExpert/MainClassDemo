@@ -15,11 +15,11 @@ public  DcMotor(String name, String type, int maxrpm, int encoder, int i) {
 }
 
 
-//public native void setDir(String dir);
+public native void setDir(String dir);
 
 
 public void setDirection(Direction dir) {
-   // setDir(dir.toString());
+    setDir(dir.toString());
 
   //runJSCode()
 }

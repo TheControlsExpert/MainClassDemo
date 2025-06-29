@@ -20,8 +20,8 @@ public class OpModeManager {
 
     private OpModeManager() {}
 
-   // public native boolean ReadyToStart();
-   // public native boolean opModeIsActive();
+   public native boolean ReadyToStart();
+   public native boolean opModeIsActive();
 
     public static OpModeManager getInstance() {
         if (manager == null) {
@@ -66,20 +66,20 @@ public class OpModeManager {
 
                 while(true) {
                     runnable.init_loop();
-                   // if (ReadyToStart()) {
+                   if (ReadyToStart()) {
                         break;
-                    //}
+                    }
 
                 }
 
                 runnable.start();
-                //while(opModeIsActive()) {
+                while(opModeIsActive()) {
                     runnable.loop();
                     //
-                  //  break;
-                 //   
+                    break;
+                   
 
-               // }
+                }
                 runnable.stop();
                 
 

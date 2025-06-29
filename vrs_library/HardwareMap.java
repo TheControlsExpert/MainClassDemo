@@ -30,12 +30,13 @@ public class HardwareMap {
 
         
        
-        try {
-         jsonText = new String(Files.readAllBytes(Paths.get("defaultRobot.json")));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        //try {
+        // jsonText = new String(Files.readAllBytes(Paths.get("public/config_files/defaultRobot.json")));
+        jsonText = getJSON();
+        //}
+        //catch (IOException e) {
+           // e.printStackTrace();
+        //}
         //jsonText = getJSON();
          json = new JSONObject(jsonText);
          
