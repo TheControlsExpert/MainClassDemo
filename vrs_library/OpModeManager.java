@@ -33,8 +33,8 @@ public class OpModeManager {
 
 
     public void run() {
-        String currentOp = "Autonomous";
-        //String currentOp = getChosenOpMode();
+        //String currentOp = "Autonomous";
+        String currentOp = getChosenOpMode();
         Class<?> clazz = null;
 
         if (currentOp.equals("Teleop")) {
@@ -188,7 +188,7 @@ public static Class<?> findTeleopClasses() throws TeleopClassNotFoundError {
         
 
     try {JarFile jar = new JarFile(jarFile);
-        String directoryPrefix = "combined/TeamCode";
+        String directoryPrefix = "TeamCode";
         Enumeration<JarEntry> entries = jar.entries();
         while (entries.hasMoreElements()) {
             JarEntry entry = entries.nextElement();
