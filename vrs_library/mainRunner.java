@@ -18,10 +18,15 @@ import java.util.zip.ZipInputStream;
 
 
 public class mainRunner {
-
+    public static native void setOpModeManager(OpModeManager opModeManager);
 
     public static void main(String[] args) {
-        
-        OpModeManager.getInstance().run();
+        OpModeManager opModeManager = OpModeManager.getInstance();
+
+        // Start a thread for initializing the Java application instance in JavaScript
+        new Thread(() -> {
+            setOpModeManager(opModeManager);
+            System.out.println("Starting Thread");
+        }).start();
     }
 }    
