@@ -1,6 +1,6 @@
 package vrs_library;
 
-public class LinearOpMode {
+public class LinearOpMode extends OpMode {
 
     public HardwareMap hardwareMap = OpModeManager.getInstance().getHardwareMap();
 

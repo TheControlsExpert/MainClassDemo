@@ -25,8 +25,9 @@ public class mainRunner {
 
         // Start a thread for initializing the Java application instance in JavaScript
         new Thread(() -> {
-            setOpModeManager(opModeManager);
             System.out.println("Starting Thread");
+            System.out.println("DIFFERENT JAR RUNNING!!!");
+            setOpModeManager(opModeManager);
         }).start();
     }
 }    

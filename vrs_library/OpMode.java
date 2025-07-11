@@ -9,7 +9,7 @@ public class OpMode {
 
 
 
-    public static native void waitForStart();
+    // public static native void waitForStart();
 
 
     public void init() {}

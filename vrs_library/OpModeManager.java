@@ -17,6 +17,8 @@ public class OpModeManager {
     private static OpModeManager manager;
     private HardwareMap hardwareMap = new HardwareMap();
 
+    private OpMode currentOpMode = null;
+
     private OpModeManager() {
     }
 
@@ -100,6 +102,9 @@ public class OpModeManager {
             // assuming its autonomous
             try {
                 LinearOpMode runnable = (LinearOpMode) clazz.getDeclaredConstructor().newInstance();
+                currentOpMode = runnable;
+
+                
                 runnable.runOpMode();
             }
 
