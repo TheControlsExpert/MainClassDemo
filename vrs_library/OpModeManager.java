@@ -13,14 +13,20 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class OpModeManager {
-
     private static OpModeManager manager;
     private HardwareMap hardwareMap = new HardwareMap();
 
-    private OpMode currentOpMode = null;
+    private Thread activeOpModeThread = null;
+
+    final int MS_BEFORE_FORCE_STOP_AFTER_STOP_REQUESTED = 900;  // taken from OpModeInternal in FTC SDK
 
     private OpModeManager() {
     }
+
+    /**
+     * Tells cheerpj when an op mode has finished running naturally (no interrupting by stop program button)
+     */
+    private native void tellJSOpModeFinishedNaturally();
 
     /**
      * Exits system (in case we need to terminate thread etc.)
@@ -31,7 +37,11 @@ public class OpModeManager {
 
     public native boolean ReadyToStart();
 
-    public native boolean opModeIsActive();
+    // TODO Jenny thinks this should
+    // probably either be part of the LinearOpMode class
+    // or have this not be a native method (like the js should signal when
+    // the opmode should stop, constantly pinging the js seems far too costly)
+    public native boolean opModeIsActive(); 
 
     public static OpModeManager getInstance() {
         if (manager == null) {
@@ -102,10 +112,25 @@ public class OpModeManager {
             // assuming its autonomous
             try {
                 LinearOpMode runnable = (LinearOpMode) clazz.getDeclaredConstructor().newInstance();
-                currentOpMode = runnable;
+                // currentOpMode = runnable;
+                System.out.println("starting op mode thread");
 
-                
-                runnable.runOpMode();
+                Thread opModeThread = new Thread(() ->
+                    {
+                        System.out.println("Running op mode thread now");
+                        try {
+                            runnable.runOpMode();
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+
+                        System.out.println("finished running current op");
+                        tellJSOpModeFinishedNaturally();
+                    }
+                );
+
+                opModeThread.start();
+                activeOpModeThread = opModeThread;
             }
 
             catch (InstantiationException | IllegalAccessException | NoSuchMethodException
@@ -115,6 +140,28 @@ public class OpModeManager {
 
         }
 
+    }
+
+    /**
+     * Stops the active op mode in roughly the same way ftc sdk does 
+     * (see OpModeManagerImpl class)
+     */
+    @SuppressWarnings({"removal"})
+    public void stopActiveOpMode() {
+        if (activeOpModeThread == null) return;
+        // TODO put all motors in safe state
+        // idk if this is necessary because once it is in the stop match
+        // state the sim prevents motors from moving to begin with
+        // ftc sdk does this though
+
+        // interrupt first, then force kill.
+        activeOpModeThread.interrupt();
+        try {
+            Thread.sleep(MS_BEFORE_FORCE_STOP_AFTER_STOP_REQUESTED);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        activeOpModeThread.stop();
     }
 
     public String getOpModeList() {

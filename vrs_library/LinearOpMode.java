@@ -6,7 +6,7 @@ public class LinearOpMode extends OpMode {
 
     public LinearOpMode() {}
 
-    public void runOpMode() {}
+    public void runOpMode() throws InterruptedException {}
 
     public native void waitForStart();
     
