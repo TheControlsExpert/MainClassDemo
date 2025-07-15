@@ -25,8 +25,11 @@ public class OpModeManager {
 
     /**
      * Tells cheerpj when an op mode has finished running naturally (no interrupting by stop program button)
+     * 
+     * TODO realized that these 2 methods should be combined into 1
      */
     private native void tellJSOpModeFinishedNaturally();
+    private native void tellJSOpModeFinishedForcefully();
 
     /**
      * Exits system (in case we need to terminate thread etc.)
@@ -124,7 +127,7 @@ public class OpModeManager {
                             System.out.println(e);
                         }
 
-                        System.out.println("finished running current op");
+                        System.out.println("finished running current op naturally!!!");
                         tellJSOpModeFinishedNaturally();
                     }
                 );
@@ -162,6 +165,8 @@ public class OpModeManager {
             System.out.println(e);
         }
         activeOpModeThread.stop();
+        // System.out.println("NOT SAYING IT FINISHED FORCEFULLY");
+        tellJSOpModeFinishedForcefully();
     }
 
     public String getOpModeList() {
